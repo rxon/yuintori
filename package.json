@@ -1,0 +1,31 @@
+{
+  "name": "yuintori",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/server.js",
+    "lint": "prettier --single-quote --write 'src/**/*.js'",
+    "test": "mocha -R --harmony nyan test/note.js"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "bluebird": "^3.5.0",
+    "cron": "^1.2.1",
+    "dotenv": "^4.0.0",
+    "gm": "^1.23.0",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-logger": "^3.0.1",
+    "koa-route": "^3.2.0",
+    "koa-static": "^3.0.0",
+    "lodash.filter": "^4.6.0",
+    "lowdb": "^0.16.2",
+    "mz": "^2.6.0",
+    "nodemailer": "^4.0.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.5.0",
+    "prettier": "^1.5.2",
+    "supertest": "^3.0.0"
+  }
+}
