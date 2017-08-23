@@ -1,4 +1,3 @@
-const fs = require('mz/fs');
 const path = require('path');
 const axios = require('axios');
 const filter = require('lodash.filter');
