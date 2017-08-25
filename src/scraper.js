@@ -8,16 +8,18 @@ function getOriginalSize(item) {
   return item[item.type + 's'].standard_resolution.url;
 }
 
-function getUrls(item) {
-  const urls = [];
-  if (item.type === 'carousel') {
-    item.carousel_media.forEach(carouselItem => {
-      urls.push(getOriginalSize(carouselItem));
-    });
-  } else {
-    urls.push(getOriginalSize(item));
-  }
-  return urls;
+function getFilename(item) {
+  // const filename = [];
+  // if (item.type === 'carousel') {
+  //   item.carousel_media.forEach(carouselItem => {
+  //     urls.push(getOriginalSize(carouselItem));
+  //   });
+  // } else {
+  // urls.push(getOriginalSize(item));
+  // }
+  const parsedUrl = url.parse(getOriginalSize(item));
+  const filename = path.basename(parsedUrl.pathname);
+  return filename;
 }
 
 module.exports = function(username) {
@@ -47,3 +49,11 @@ module.exports = function(username) {
       .catch(err => reject(err.stack));
   });
 };
+
+axios({
+  method: 'get',
+  url: post.urls[0],
+  responseType: 'stream'
+}).then(function(response) {
+  response.data.pipe(fs.createWriteStream(filename));
+});
