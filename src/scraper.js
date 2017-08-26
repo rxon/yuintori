@@ -34,7 +34,7 @@ module.exports = async function(username, trim) {
     }).then(function(response) {
       const writeStream = response.data.pipe(fs.createWriteStream(filename));
       writeStream.on('finish', function() {
-        trim();
+        trim(filename);
       });
     });
     newMedia.push({

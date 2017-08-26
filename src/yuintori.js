@@ -2,10 +2,10 @@ const execFile = require('child_process').execFile;
 const cronJob = require('cron').CronJob;
 const scraper = require('./scraper');
 
-function trim() {
+function trim(filename) {
   execFile(
     'mogrify',
-    ['-fuzz', '5%', '-trim', '+repage', '*.jpg'],
+    ['-fuzz', '5%', '-trim', '+repage', filename],
     (error, stdout, stderr) => {
       if (error) {
         throw error;
