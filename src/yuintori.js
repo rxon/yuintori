@@ -1,7 +1,6 @@
 const execFile = require('child_process').execFile;
+const cronJob = require('cron').CronJob;
 const scraper = require('./scraper');
-
-scraper('yui_ogura_official', trim);
 
 function trim() {
   execFile(
@@ -14,3 +13,16 @@ function trim() {
     }
   );
 }
+
+const job = new cronJob(
+  '00 */1 * * * *',
+  async function() {
+    const posts = await scraper('yui_ogura_official', trim);
+    console.log(posts);
+  },
+  null,
+  true,
+  'Asia/Tokyo'
+);
+
+console.log('job status', job.running);

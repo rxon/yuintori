@@ -23,6 +23,9 @@ module.exports = async function(username, trim) {
     const originalSizeUrl = item[item.type + 's'].standard_resolution.url;
     const parsedUrl = url.parse(originalSizeUrl);
     const filename = path.basename(parsedUrl.pathname);
+    if (item.created_time > lastYui) {
+      // db.set('last_yui', item.created_time).write();
+    }
 
     axios({
       method: 'get',
