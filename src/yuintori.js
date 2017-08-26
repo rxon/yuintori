@@ -1,14 +1,16 @@
 const execFile = require('child_process').execFile;
 const scraper = require('./scraper');
 
-scraper('yui_ogura_official').then(async posts => {});
+scraper('yui_ogura_official', trim);
 
-// mogrify -fuzz 5% -trim +repage yui.jpg
-execFile('convert', [
-  filename,
-  '-fuzz',
-  '5%',
-  '-trim',
-  '+repage',
-  'd' + filename
-]);
+function trim() {
+  execFile(
+    'mogrify',
+    ['-fuzz', '5%', '-trim', '+repage', '*.jpg'],
+    (error, stdout, stderr) => {
+      if (error) {
+        throw error;
+      }
+    }
+  );
+}

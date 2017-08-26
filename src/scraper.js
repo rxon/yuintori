@@ -1,59 +1,43 @@
+const fs = require('fs');
+const url = require('url');
 const path = require('path');
 const axios = require('axios');
 const filter = require('lodash.filter');
 
 const db = require('./db');
 
-function getOriginalSize(item) {
-  return item[item.type + 's'].standard_resolution.url;
-}
-
-function getFilename(item) {
-  // const filename = [];
-  // if (item.type === 'carousel') {
-  //   item.carousel_media.forEach(carouselItem => {
-  //     urls.push(getOriginalSize(carouselItem));
-  //   });
-  // } else {
-  // urls.push(getOriginalSize(item));
-  // }
-  const parsedUrl = url.parse(getOriginalSize(item));
-  const filename = path.basename(parsedUrl.pathname);
-  return filename;
-}
-
-module.exports = function(username) {
-  return new Promise(function(resolve, reject) {
-    const url = require('url').format({
-      protocol: 'https',
-      host: 'instagram.com',
-      pathname: path.join(username, 'media')
-    });
-    const lastYui = db.get('last_yui').value();
-
-    const newMedia = [];
-    axios
-      .get(url)
-      .then(media => {
-        const filteredMedia = filter(media.data.items, function(item) {
-          return item.created_time > lastYui;
-        });
-        filteredMedia.forEach(item =>
-          newMedia.push({
-            text: item.caption.text,
-            urls: getUrls(item)
-          })
-        );
-      })
-      .then(() => resolve(newMedia))
-      .catch(err => reject(err.stack));
+module.exports = async function(username, trim) {
+  const endPoint = url.format({
+    protocol: 'https',
+    host: 'instagram.com',
+    pathname: path.join(username, 'media')
   });
-};
+  const lastYui = db.get('last_yui').value();
+  const newMedia = [];
+  const media = await axios.get(endPoint);
+  const filteredMedia = filter(media.data.items, function(item) {
+    return item.created_time > lastYui;
+  });
 
-axios({
-  method: 'get',
-  url: post.urls[0],
-  responseType: 'stream'
-}).then(function(response) {
-  response.data.pipe(fs.createWriteStream(filename));
-});
+  filteredMedia.forEach(item => {
+    const originalSizeUrl = item[item.type + 's'].standard_resolution.url;
+    const parsedUrl = url.parse(originalSizeUrl);
+    const filename = path.basename(parsedUrl.pathname);
+
+    axios({
+      method: 'get',
+      url: originalSizeUrl,
+      responseType: 'stream'
+    }).then(function(response) {
+      const writeStream = response.data.pipe(fs.createWriteStream(filename));
+      writeStream.on('finish', function() {
+        trim();
+      });
+    });
+    newMedia.push({
+      text: item.caption.text,
+      filename
+    });
+  });
+  return newMedia;
+};
