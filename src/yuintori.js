@@ -13,16 +13,22 @@ function trim(filename) {
     }
   );
 }
+//
+// const job = new cronJob(
+//   '00 */1 * * * *',
+//   async function() {
+//     const posts = await scraper('yui_ogura_official', trim);
+//     console.log(posts);
+//   },
+//   null,
+//   true,
+//   'Asia/Tokyo'
+// );
+//
+// console.log('job status', job.running);
 
-const job = new cronJob(
-  '00 */1 * * * *',
-  async function() {
-    const posts = await scraper('yui_ogura_official', trim);
-    console.log(posts);
-  },
-  null,
-  true,
-  'Asia/Tokyo'
-);
-
-console.log('job status', job.running);
+async function dev() {
+  const posts = await scraper('yui_ogura_official', trim);
+  console.log(posts);
+}
+dev();
