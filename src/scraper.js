@@ -37,20 +37,12 @@ module.exports = async function(username, trim) {
   });
 
   filteredMedia.forEach(item => {
-    if (item.type === 'carousel') {
-      // item.carousel_media.forEach(carouselItem => {
-      //   download(carouselItem, filename, trim);
-      // });
-      newMedia.push({
-        text: item.caption.text,
-        filename: download(item.carousel_media[0], trim)
-      });
-    } else {
-      newMedia.push({
-        text: item.caption.text,
-        filename: download(item, trim)
-      });
-    }
+    const yuitem = item.type === 'carousel' ? item.carousel_media[0] : item;
+
+    newMedia.push({
+      text: item.caption.text,
+      filename: download(yuitem, trim)
+    });
 
     // if (item.created_time > lastYui) {
     //   db.set('last_yui', item.created_time).write();
