@@ -1,20 +1,43 @@
+const fs = require('fs');
+const crypto = require('crypto');
+
 const Koa = require('koa');
 const app = new Koa();
+const bodyParser = require('koa-bodyparser');
+const logger = require('koa-logger');
 const route = require('koa-route');
 const serve = require('koa-static');
-const logger = require('koa-logger');
-const bodyParser = require('koa-bodyparser');
-const crypto = require('crypto');
+const mustache = require('mustache');
 
 const db = require('./db');
 const sendmail = require('./sendmail');
 
 app.use(logger());
 app.use(bodyParser());
-app.use(serve('./public'));
 
-app.use(route.post('/auth', postAuth));
+app.use(route.get('/', index));
 app.use(route.get('/auth', getAuth));
+app.use(route.post('/auth', postAuth));
+
+const template = fs.readFileSync('./src/template.mustache', 'utf-8');
+const head = {
+  title: '',
+  url: 'yuintori.now.sh',
+  description: '',
+  fbimg: '',
+  twimg: '',
+  twaccount: '@rxon_',
+  icon: ''
+};
+
+function index(ctx) {
+  ctx.body = mustache.render(template, {
+    head,
+    index: {
+      title: 'ゆいんとり'
+    }
+  });
+}
 
 function postAuth(ctx) {
   const email = ctx.request.body.email;
