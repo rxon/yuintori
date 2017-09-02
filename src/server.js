@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const Koa = require('koa');
 const app = new Koa();
 const bodyParser = require('koa-bodyparser');
+const helmet = require('koa-helmet');
 const logger = require('koa-logger');
 const route = require('koa-route');
 const serve = require('koa-static');
@@ -14,6 +15,7 @@ const sendmail = require('./sendmail');
 
 app.use(logger());
 app.use(bodyParser());
+app.use(helmet());
 
 app.use(route.get('/', index));
 app.use(route.get('/auth', getAuth));
