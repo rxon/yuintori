@@ -6,8 +6,7 @@ const filter = require('lodash.filter');
 
 const db = require('./db');
 
-function download(item, trim) {
-  const originalSizeUrl = item[item.type + 's'].standard_resolution.url;
+function download(originalSizeUrl, trim) {
   const parsedUrl = url.parse(originalSizeUrl);
   const filename = path.basename(parsedUrl.pathname);
   axios({
@@ -21,6 +20,20 @@ function download(item, trim) {
     });
   });
   return filename;
+}
+
+function getFilenames(item, trim) {
+  let filenames = [];
+  if (item.type === 'carousel') {
+    for (let object of item.carousel_media) {
+      let originalSizeUrl = object[object.type + 's'].standard_resolution.url;
+      filenames.push(download(originalSizeUrl, trim));
+    }
+  } else {
+    let originalSizeUrl = item[item.type + 's'].standard_resolution.url;
+    filenames.push(download(originalSizeUrl, trim));
+  }
+  return filenames;
 }
 
 module.exports = async function(username, trim) {
@@ -37,11 +50,9 @@ module.exports = async function(username, trim) {
   });
 
   filteredMedia.forEach(item => {
-    const yuitem = item.type === 'carousel' ? item.carousel_media[0] : item;
-
     newMedia.push({
       text: item.caption.text,
-      filename: download(yuitem, trim)
+      filenames: getFilenames(item, trim)
     });
 
     // if (item.created_time > lastYui) {
