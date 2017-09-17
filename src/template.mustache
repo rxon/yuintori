@@ -40,6 +40,15 @@
     {{title}}
   {{/index}}
 
+  {{#mail}}
+    {{#.}}
+      {{text}}
+      {{#filenames}}
+        <img src="cid:{{{.}}}" />
+      {{/filenames}}
+    {{/.}}
+  {{/mail}}
+
 </body>
 
 </html>

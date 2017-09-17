@@ -104,5 +104,5 @@ db
   })
   .write()
   .then(() => {
-    app.listen(3000, () => console.log('Server is listening'));
+    app.listen(3000, () => console.log('Server is listening on 3000'));
   });

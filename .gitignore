@@ -5,8 +5,8 @@ node_modules
 
 # logs
 npm-debug.log
-yarn-error.log
 
 # other
 db.json
 .env
+public/*.jpg

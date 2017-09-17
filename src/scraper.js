@@ -14,7 +14,9 @@ function download(originalSizeUrl, trim) {
     url: originalSizeUrl,
     responseType: 'stream'
   }).then(function(response) {
-    const writeStream = response.data.pipe(fs.createWriteStream(filename));
+    const writeStream = response.data.pipe(
+      fs.createWriteStream('public/' + filename)
+    );
     writeStream.on('finish', function() {
       trim(filename);
     });
