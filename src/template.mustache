@@ -33,7 +33,7 @@
 <body>
 
   {{#message}}
-      {{message}}
+    {{message}}
   {{/message}}
 
   {{#index}}
@@ -42,10 +42,10 @@
 
   {{#mail}}
     {{#.}}
-      {{text}}
       {{#filenames}}
         <img src="cid:{{{.}}}" />
       {{/filenames}}
+      <p>{{text}}  <a href="{{{url}}}">{{time}}</a></p>
     {{/.}}
   {{/mail}}
 

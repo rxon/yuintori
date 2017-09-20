@@ -2,6 +2,7 @@ const fs = require('fs');
 const url = require('url');
 const path = require('path');
 const axios = require('axios');
+const moment = require('moment');
 const filter = require('lodash.filter');
 
 const db = require('./db');
@@ -52,9 +53,14 @@ module.exports = async function(username, trim) {
   });
 
   filteredMedia.forEach(item => {
+    moment.locale('ja');
+    const createdTime = new Date(Number('1505767163' + '000'));
+    const time = moment(createdTime).fromNow();
     newMedia.push({
+      filenames: getFilenames(item, trim),
       text: item.caption.text,
-      filenames: getFilenames(item, trim)
+      url: `https://www.instagram.com/p/${item.code}/`,
+      time
     });
 
     // if (item.created_time > lastYui) {
