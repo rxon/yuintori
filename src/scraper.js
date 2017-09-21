@@ -54,8 +54,8 @@ module.exports = async function(username, trim) {
 
   filteredMedia.forEach(item => {
     moment.locale('ja');
-    const createdTime = new Date(Number('1505767163' + '000'));
-    const time = moment(createdTime).fromNow();
+    const createdTime = new Date(Number(item.created_time + '000'));
+    const time = moment(createdTime).format('dddd k:mm:ss');
     newMedia.push({
       filenames: getFilenames(item, trim),
       text: item.caption.text,

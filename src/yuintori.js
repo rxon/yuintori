@@ -34,8 +34,6 @@ function trim(filename) {
 async function dev() {
   const posts = await scraper('yui_ogura_official', trim);
   const template = fs.readFileSync('./src/template.mustache', 'utf-8');
-  const html = mustache.render(template, { mail: posts });
-  const bcc = db.get('users').filter({ active: true }).map('email').value();
 
   const attachments = [];
   for (var post of posts) {
@@ -50,9 +48,9 @@ async function dev() {
   sendmail({
     from: '"ゆいんとり(*-v・)" <rxxxxon@gmail.com>',
     to: 'rxxxxon@gmail.com',
-    bcc,
-    subject: posts[0].text,
-    html,
+    bcc: db.get('users').filter({ active: true }).map('email').value(),
+    subject: posts[0].text.substr(0, 60) + '…',
+    html: mustache.render(template, { mail: posts }),
     attachments
   });
 }
