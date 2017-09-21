@@ -6,11 +6,10 @@
     <meta charset="UTF-8">
     <title>{{title}}</title>
     <meta name="author" content="rxon">
-    <meta name="copyright" content="Copyright(c)rxon. 2015 All Rights Reserved.">
+    <meta name="copyright" content="Copyright(c)rxon. 2017 All Rights Reserved.">
     <meta name="description" content="{{description}}">
     <meta name="format-detection" content="telephone=no,address=no,email=no">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <!-- <meta name="theme-color" content="#55bbff"> -->
     <meta property="og:description" content="{{description}}">
     <meta property="og:title" content="{{title}}">
     <meta property="og:url" content="{{{url}}}">
@@ -45,7 +44,7 @@
       {{#filenames}}
         <img src="cid:{{{.}}}" />
       {{/filenames}}
-      <p>{{text}}  <a href="{{{url}}}">{{time}}</a></p>
+      <p style="margin-bottom: 3em">{{text}} <a href="{{{url}}}">{{time}}</a></p>
     {{/.}}
   {{/mail}}
 

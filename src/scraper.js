@@ -5,7 +5,7 @@ const axios = require('axios');
 const moment = require('moment');
 const filter = require('lodash.filter');
 
-const db = require('./db');
+const db = require('./utils/db');
 
 function download(originalSizeUrl, trim) {
   const parsedUrl = url.parse(originalSizeUrl);

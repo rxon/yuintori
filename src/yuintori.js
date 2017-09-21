@@ -2,9 +2,9 @@ const fs = require('fs');
 const execFile = require('child_process').execFile;
 const cronJob = require('cron').CronJob;
 const mustache = require('mustache');
-const db = require('./db');
+const db = require('./utils/db');
 const scraper = require('./scraper');
-const sendmail = require('./sendmail');
+const sendmail = require('./utils/sendmail');
 
 function trim(filename) {
   execFile(

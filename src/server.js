@@ -10,8 +10,8 @@ const route = require('koa-route');
 const serve = require('koa-static');
 const mustache = require('mustache');
 
-const db = require('./db');
-const sendmail = require('./sendmail');
+const db = require('./utils/db');
+const sendmail = require('./utils/sendmail');
 
 app.use(logger());
 app.use(bodyParser());
