@@ -1,6 +1,5 @@
 const fs = require('fs');
 const execFile = require('child_process').execFile;
-const cronJob = require('cron').CronJob;
 const mustache = require('mustache');
 const db = require('./utils/db');
 const scraper = require('./scraper');
@@ -17,21 +16,8 @@ function trim(filename) {
     }
   );
 }
-//
-// const job = new cronJob(
-//   '00 */1 * * * *',
-//   async function() {
-//     const posts = await scraper('yui_ogura_official', trim);
-//     console.log(posts);
-//   },
-//   null,
-//   true,
-//   'Asia/Tokyo'
-// );
-//
-// console.log('job status', job.running);
 
-async function dev() {
+module.exports = async function() {
   const posts = await scraper('yui_ogura_official', trim);
   const template = fs.readFileSync('./src/template.mustache', 'utf-8');
 
@@ -53,5 +39,4 @@ async function dev() {
     html: mustache.render(template, { mail: posts }),
     attachments
   });
-}
-dev();
+};

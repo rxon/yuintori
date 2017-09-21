@@ -9,6 +9,7 @@ const logger = require('koa-logger');
 const route = require('koa-route');
 const serve = require('koa-static');
 const mustache = require('mustache');
+const cronJob = require('cron').CronJob;
 
 const db = require('./utils/db');
 const sendmail = require('./utils/sendmail');
@@ -106,3 +107,13 @@ db
   .then(() => {
     app.listen(3000, () => console.log('Server is listening on 3000'));
   });
+
+const job = new cronJob(
+  '00 */1 * * * *',
+  require('./yuintori'),
+  null,
+  true,
+  'Asia/Tokyo'
+);
+
+console.log('job status', job.running);
