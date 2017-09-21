@@ -62,10 +62,9 @@ module.exports = async function(username, trim) {
       url: `https://www.instagram.com/p/${item.code}/`,
       time
     });
-
-    // if (item.created_time > lastYui) {
-    //   db.set('last_yui', item.created_time).write();
-    // }
   });
+  if (filteredMedia.length > 0) {
+    db.set('last_yui', filteredMedia[0].created_time).write();
+  }
   return newMedia;
 };

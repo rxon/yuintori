@@ -20,7 +20,6 @@ function trim(filename) {
 module.exports = async function() {
   const posts = await scraper('yui_ogura_official', trim);
   const template = fs.readFileSync('./src/template.mustache', 'utf-8');
-
   const attachments = [];
   for (var post of posts) {
     for (filename of post.filenames) {
@@ -31,12 +30,14 @@ module.exports = async function() {
       });
     }
   }
-  sendmail({
-    from: '"ゆいんとり(*-v・)" <rxxxxon@gmail.com>',
-    to: 'rxxxxon@gmail.com',
-    bcc: db.get('users').filter({ active: true }).map('email').value(),
-    subject: posts[0].text.substr(0, 60) + '…',
-    html: mustache.render(template, { mail: posts }),
-    attachments
-  });
+  if (posts.length > 0) {
+    sendmail({
+      from: '"ゆいんとり(*-v・)" <rxxxxon@gmail.com>',
+      to: 'rxxxxon@gmail.com',
+      bcc: db.get('users').filter({ active: true }).map('email').value(),
+      subject: posts[0].text.substr(0, 60) + '…',
+      html: mustache.render(template, { mail: posts }),
+      attachments
+    });
+  }
 };
