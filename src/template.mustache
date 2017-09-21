@@ -2,6 +2,7 @@
 <html lang="ja" prefix="og: http://ogp.me/ns#">
 
 <head>
+
   {{#head}}
     <meta charset="UTF-8">
     <title>{{title}}</title>
@@ -30,14 +31,49 @@
 </head>
 
 <body>
+  {{#index}}
+    <style>
+      article {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 90vh;
+      }
+
+      .email {
+        margin: 1em 0;
+        padding: .5em;
+        width: 14em;
+        text-align: center;
+        font-size: 1em;
+        outline: none;
+        border: none;
+        border-bottom: 1px solid #c1c1c1 !important;
+      }
+
+      .email:focus {
+        border-bottom: 1px solid #636969 !important;
+      }
+
+      .email:valid {
+        border-bottom: 1px solid #00b8ff !important;
+      }
+
+       ::-webkit-input-placeholder {
+        line-height: 1em;
+        color: #657786;
+      }
+    </style>
+    <article>
+      <form action="/auth" method="post">
+        <input class="email" type="email" name="email" required placeholder="you@domain.com" autofocus>
+      </form>
+    </article>
+  {{/index}}
 
   {{#message}}
     {{message}}
   {{/message}}
-
-  {{#index}}
-    {{title}}
-  {{/index}}
 
   {{#mail}}
     {{#.}}

@@ -36,9 +36,7 @@ const head = {
 function index(ctx) {
   ctx.body = mustache.render(template, {
     head,
-    index: {
-      title: 'ゆいんとり'
-    }
+    index: true
   });
 }
 
