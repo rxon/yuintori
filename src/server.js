@@ -43,7 +43,7 @@ function index(ctx) {
 function postAuth(ctx) {
   const email = ctx.request.body.email;
   const token = crypto.createHash('sha224').digest('hex');
-  const url = process.env.NOW_URL || 'http://localhost:3000/';
+  const url = process.env.NOW_URL + '/' || 'http://localhost:3000/';
 
   db
     .get('users')

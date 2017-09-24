@@ -34,7 +34,11 @@ module.exports = async function() {
     sendmail({
       from: '"ゆいんとり(*-v・)" <rxxxxon@gmail.com>',
       to: 'rxxxxon@gmail.com',
-      bcc: db.get('users').filter({ active: true }).map('email').value(),
+      bcc: db
+        .get('users')
+        .filter({ active: true })
+        .map('email')
+        .value(),
       subject: posts[0].text.substr(0, 60) + '…',
       html: mustache.render(template, { mail: posts }),
       attachments

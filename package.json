@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node src/server.js",
     "lint": "prettier --single-quote --write 'src/**/*.js'",
-    "deploy": "now --public --docker"
+    "deploy": "now --docker --public --dotenv"
   },
   "dependencies": {
     "axios": "^0.16.2",
